@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Registration Form</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .star{
+                color:red;
+            }
+            .error{
+                color:red;
+            }
+            #myTable{
+                font-size: 18px;
+            }
+            #myTable tr td:nth-child(2){
+                padding: 0px 5px;
+            }
+            </style>
+    </head>
+    <body>
+        <div>
+            <h2>Registration Form</h2>
+            <form name="regForm" onsubmit="return validateForm()">
+                <table id="myTable">
+                    <tr>
+                        <td>User id <span class="star">*</span></td>
+                        <td>:</td>
+                        <td><input type="number" name="userid">
+                            <span id="useridErr" class="error"></span>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password <span class="star">*</span></td>
+                        <td>:</td>
+                        <td><input type="password" name="pass"><span id="passwordErr" class="error"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Name <span class="star">*</span></td>
+                        <td>:</td>
+                        <td><input type="text" name="fullName"><span id="nameErr" class="error"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td>:</td>
+                        <td><input type="text" name="address"></td>
+                    </tr>
+                    <tr>
+                        <td>Country<span class="star">*</span></td>
+                        <td>:</td>
+                        <td>
+                            <select name="country">
+                                <option value="Select">Please Select A Country </option>
+                                <option value="Bangladeh">Bangladesh </option>
+                                <option value="India">India </option>
+                                <option value="Nepal">Nepal </option>
+                                <option value="Bhutan">Bhutan </option>
+                            </select><span id="countryErr" class="error"></span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>Zip Code <span class="star">*</span></td>
+                        <td>:</td>
+                        <td><input type="number" name="zipCode"><span id="zipCodeErr" class="error"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Email <span class="star">*</span></td>
+                        <td>:</td>
+                        <td><input type="text" name="email"><span id="emailErr" class="error"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Gender  <span class="star">*</span></td>
+                        <td>:</td>
+                        <td>
+                            <input type="radio" name="gender" value="Male" />Male
+                            <input type="radio" name="gender" value="Female"/>Female 
+                            <span id="genderErr" class="error"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Language <span class="star">*</span></td>
+                        <td>:</td>
+                        <td>
+                            <input type="checkbox" name="language" value="English"> English
+                            <input type="checkbox" name="language" value="Non English"> Non English
+                            <span id="languageErr" class="error"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>About  </td>
+                        <td>:</td>
+                        <td>
+                            <textarea rows="5" name="about"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> </td>
+                        <td></td>
+                        <td>
+                            <input type="submit" value="Submit">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <script>
+            function printError(elemId, hintMsg) {
+                document.getElementById(elemId).innerHTML = hintMsg;
+            }
+
+            function validateForm() {
+
+                var userid = document.regForm.userid.value;
+                var password = document.regForm.pass.value;
+                var name = document.regForm.fullName.value;
+                var address = document.regForm.address.value;
+                var country = document.regForm.country.value;
+                var zipCode = document.regForm.zipCode.value;
+                var email = document.regForm.email.value;
+                var gender = document.regForm.gender.value;
+                var language = [];
+                var checkboxes = document.getElementsByName("language");
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        // Populate hobbies array with selected values
+                        language.push(checkboxes[i].value);
+                    }
+                }
+                var about = document.regForm.about.value;
+
+
+                // Defining error variables with a default value
+                var useridErr = passwordErr = nameErr = countryErr = zipCodeErr = emailErr = genderErr = languageErr = true;
+
+                // Validate user id
+                if (userid == "") {
+                    printError("useridErr", "Please enter your User ID");
+                } else if (userid.length < 5 || userid.length > 12) {
+                    printError("useridErr", "Please enter your User ID Length 5 to 12");
+                } else {
+                    printError("useridErr", "");
+                    useridErr = false;
+                }
+                // Validate Password
+                if (password == "") {
+                    printError("passwordErr", "Please enter your Password");
+                } else if (password.length < 7 || password.length > 12) {
+                    printError("passwordErr", "Please enter your password Length 7 to 12");
+                } else {
+                    printError("passwordErr", "");
+                    passwordErr = false;
+                }
+
+
+                // Validate name
+                if (name == "") {
+                    printError("nameErr", "Please enter your name");
+                } else {
+                    var regex = /^[a-zA-Z\s]+$/;
+                    if (regex.test(name) === false) {
+                        printError("nameErr", "Please enter a valid name");
+                    } else {
+                        printError("nameErr", "");
+                        nameErr = false;
+                    }
+                }
+
+                // Validate country
+                if (country == "Select") {
+                    printError("countryErr", "Please select your country");
+                } else {
+                    printError("countryErr", "");
+                    countryErr = false;
+                }
+
+                // Validate zipCode
+                if (zipCode == "") {
+                    printError("zipCodeErr", "Please enter your zip code");
+                } else {
+                    printError("zipCodeErr", "");
+                    zipCodeErr = false;
+                }
+
+                // Validate email address
+                if (email == "") {
+                    printError("emailErr", "Please enter your email address");
+                } else {
+                    // Regular expression for basic email validation
+                    var regex = /^\S+@\S+\.\S+$/;
+                    if (regex.test(email) === false) {
+                        printError("emailErr", "Please enter a valid email address");
+                    } else {
+                        printError("emailErr", "");
+                        emailErr = false;
+                    }
+                }
+
+                // Validate gender
+                if (gender == "") {
+                    printError("genderErr", "Please select your gender");
+                } else {
+                    printError("genderErr", "");
+                    genderErr = false;
+                }
+
+                // Validate zipCode
+                if (language.length == 0) {
+                    printError("languageErr", "Please checked the field");
+                } else {
+                    printError("languageErr", "");
+                    languageErr = false;
+                }
+
+                // Prevent the form from being submitted if there are any errors
+                if ((useridErr || passwordErr || nameErr || countryErr || zipCodeErr || emailErr || genderErr || languageErr) == true) {
+                    return false;
+                } else {
+
+                    var userid = document.regForm.userid.value;
+                    var password = document.regForm.pass.value;
+                    var name = document.regForm.fullName.value;
+                    var address = document.regForm.address.value;
+                    var country = document.regForm.country.value;
+                    var zipCode = document.regForm.zipCode.value;
+                    var email = document.regForm.email.value;
+                    var gender = document.regForm.gender.value;
+                    var language = [];
+                    var checkboxes = document.getElementsByName("language");
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked) {
+                            // Populate hobbies array with selected values
+                            language.push(checkboxes[i].value);
+                        }
+                    }
+                    var about = document.regForm.about.value;
+
+
+                       // Everything Show in a Window
+
+                    var winPreview = "You've entered the following details: <br> " +
+                            "User ID: " + userid + "<br>" +
+                            "Name: " + name + "<br>" +
+                            "Address: " + address + "<br>" +
+                            "Country: " + country + "<br>" +
+                            "Zip Code: " + zipCode + "<br>" +
+                            "Email Address: " + email + "<br>" +
+                            "Gender: " + gender + "<br>";
+                    if (language.length) {
+                        winPreview += "Language: " + language.join(", ") + "<br>";
+                    }
+                    winPreview += "About: " + about;
+                    var myWindow = window.open("", "", " top=200,left=200, width=500,height=500");
+                    myWindow.document.write(winPreview)
+                    //    myWindow.close();
+                }
+            }
+        </script>
+    </body>
+</html>
